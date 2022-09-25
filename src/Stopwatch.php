@@ -23,7 +23,7 @@ class Stopwatch {
     }
 
     /**
-     * Stop the stop-watch.
+     * Stop the stopwatch.
      *
      * @return $this
      */
@@ -33,7 +33,7 @@ class Stopwatch {
     }
 
     /**
-     * Create a copy of the stop-watch.
+     * Create a copy of the stopwatch.
      *
      * @return $this
      */
@@ -45,11 +45,21 @@ class Stopwatch {
         return $sw;
     }
 
+    /**
+     * Pause the stopwatch.
+     *
+     * @return $this
+     */
     public function pause(): self {
         $this->pauseTime = hrtime(true);
         return $this;
     }
 
+    /**
+     * Resume the stopwatch.
+     *
+     * @return $this
+     */
     public function resume(): self {
         $sub = hrtime(true) - $this->pauseTime;
         $this->pauseTime = null;
@@ -58,7 +68,7 @@ class Stopwatch {
     }
 
     /**
-     * Start the stop-watch.
+     * Start the stopwatch.
      *
      * @return $this
      */
