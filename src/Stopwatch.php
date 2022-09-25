@@ -12,13 +12,14 @@ namespace Jitesoft\Time;
 class Stopwatch {
     private int  $startTime;
     private ?int $stopTime = null;
+    private ?int $pauseTime = null;
 
     public function __construct() {
         $this->start();
     }
 
     private function getStop(): int {
-        return $this->stopTime ?? hrtime(true);
+        return $this->pauseTime ?? $this->stopTime ?? hrtime(true);
     }
 
     /**
@@ -42,6 +43,18 @@ class Stopwatch {
         $sw->stopTime  = $this->stopTime;
 
         return $sw;
+    }
+
+    public function pause(): self {
+        $this->pauseTime = hrtime(true);
+        return $this;
+    }
+
+    public function resume(): self {
+        $sub = hrtime(true) - $this->pauseTime;
+        $this->pauseTime = null;
+        $this->startTime += $sub;
+        return $this;
     }
 
     /**

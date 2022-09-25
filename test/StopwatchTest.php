@@ -113,4 +113,36 @@ class StopwatchTest extends TestCase {
         self::assertEquals('30 ns', (string)$stopWatch->stop());
     }
 
+    public function testPause(): void {
+        $this->values = [
+          10, // start
+          20, // pause (now always start (10) and pause (20) = 10).
+          30,
+          40,
+          50
+        ];
+
+        $sw = new Stopwatch();
+        $sw->pause();
+        $this->assertEquals(10, $sw->nanoseconds);
+        usleep(100);
+        $this->assertEquals(10, $sw->nanoseconds);
+    }
+
+    public function testResume(): void {
+        $this->values = [
+            10, // start
+            20, // paus
+            30, // resume (+10 to start)
+            40, // Check (start 40 - 20)
+        ];
+
+        $sw = new Stopwatch();
+        $sw->pause();
+        $this->assertEquals(10, $sw->nanoseconds);
+        usleep(100);
+        $this->assertEquals(10, $sw->nanoseconds);
+        $sw->resume();
+        $this->assertEquals(20, $sw->nanoseconds);
+    }
 }
